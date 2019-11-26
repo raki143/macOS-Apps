@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15505"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="TodayViewController" customModule="Crypto_Tracker_Today_Widget" customModuleProvider="target">
+            <connections>
+                <outlet property="bitcoinLabel" destination="z4H-WB-r6J" id="a7g-ES-1N3"/>
+                <outlet property="ethereumLabel" destination="BBp-7F-ymu" id="kKb-uT-cFG"/>
+                <outlet property="litecoinLabel" destination="LTJ-0j-x72" id="a14-LG-rFW"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView simulatedAppContext="notificationCenter" translatesAutoresizingMaskIntoConstraints="NO" id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="314" height="126"/>
+            <subviews>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Aey-wq-2nl">
+                    <rect key="frame" x="0.0" y="96" width="30" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="gXL-zx-q3k"/>
+                        <constraint firstAttribute="width" constant="30" id="tu6-ho-aN8"/>
+                    </constraints>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="btc" id="OmR-nc-d0x"/>
+                </imageView>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="z4H-WB-r6J">
+                    <rect key="frame" x="36" y="103" width="115" height="16"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" title="Bitcoin - Loading.." id="AwM-Yw-Vtd">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6m8-5h-zkY">
+                    <rect key="frame" x="0.0" y="58" width="30" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="CBX-2g-MSY"/>
+                        <constraint firstAttribute="width" constant="30" id="dQ4-6t-heH"/>
+                    </constraints>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="eth" id="d7e-xW-4CA"/>
+                </imageView>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BBp-7F-ymu">
+                    <rect key="frame" x="36" y="65" width="131" height="16"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" title="Ethereum - Loading.." id="U4D-7Q-eMV">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="W9X-7r-TVg">
+                    <rect key="frame" x="0.0" y="20" width="30" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="1SK-Aq-RGz"/>
+                        <constraint firstAttribute="width" constant="30" id="tjt-Sh-FQ2"/>
+                    </constraints>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="ltc" id="aql-KG-Qhm"/>
+                </imageView>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="LTJ-0j-x72">
+                    <rect key="frame" x="36" y="27" width="121" height="16"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" title="Litecoin - Loading.." id="LgL-0n-Rg8">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+            <constraints>
+                <constraint firstItem="Aey-wq-2nl" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="2Le-hc-JIU"/>
+                <constraint firstItem="z4H-WB-r6J" firstAttribute="leading" secondItem="Aey-wq-2nl" secondAttribute="trailing" constant="8" id="ON0-FQ-Lel"/>
+                <constraint firstItem="BBp-7F-ymu" firstAttribute="centerY" secondItem="6m8-5h-zkY" secondAttribute="centerY" id="Owo-je-fah"/>
+                <constraint firstItem="W9X-7r-TVg" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="Tod-4E-dVp"/>
+                <constraint firstItem="Aey-wq-2nl" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="aVG-nC-7v5"/>
+                <constraint firstItem="W9X-7r-TVg" firstAttribute="top" secondItem="6m8-5h-zkY" secondAttribute="bottom" constant="8" symbolic="YES" id="afw-9U-uVg"/>
+                <constraint firstItem="z4H-WB-r6J" firstAttribute="centerY" secondItem="Aey-wq-2nl" secondAttribute="centerY" id="e7d-yS-ecH"/>
+                <constraint firstItem="6m8-5h-zkY" firstAttribute="top" secondItem="Aey-wq-2nl" secondAttribute="bottom" constant="8" symbolic="YES" id="fCm-xZ-jeQ"/>
+                <constraint firstItem="BBp-7F-ymu" firstAttribute="leading" secondItem="6m8-5h-zkY" secondAttribute="trailing" constant="8" id="iVr-tY-4FC"/>
+                <constraint firstAttribute="bottom" secondItem="W9X-7r-TVg" secondAttribute="bottom" constant="20" symbolic="YES" id="l6H-bc-D7c"/>
+                <constraint firstItem="LTJ-0j-x72" firstAttribute="leading" secondItem="W9X-7r-TVg" secondAttribute="trailing" constant="8" id="mxs-Yb-11i"/>
+                <constraint firstItem="6m8-5h-zkY" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="vJg-4a-E8M"/>
+                <constraint firstItem="LTJ-0j-x72" firstAttribute="centerY" secondItem="W9X-7r-TVg" secondAttribute="centerY" id="w9x-Sm-OjF"/>
+            </constraints>
+            <point key="canvasLocation" x="136" y="200"/>
+        </customView>
+    </objects>
+    <resources>
+        <image name="btc" width="128" height="128"/>
+        <image name="eth" width="128" height="128"/>
+        <image name="ltc" width="128" height="128"/>
+    </resources>
+</document>
