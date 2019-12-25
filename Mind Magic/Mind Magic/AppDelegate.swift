@@ -1,8 +1,8 @@
 //
 //  AppDelegate.swift
-//  Storm Viewer
+//  Mind Magic
 //
-//  Created by Rakesh Kumar on 24/12/19.
+//  Created by Rakesh Kumar on 25/12/19.
 //  Copyright © 2019 Rakesh Kumar. All rights reserved.
 //
 
@@ -21,8 +21,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
     }
 
-    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
-        return true
-    }
+
 }
 
