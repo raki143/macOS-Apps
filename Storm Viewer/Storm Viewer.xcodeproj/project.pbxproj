@@ -23,6 +23,7 @@
 		7E91817923B28E4A0090FFAB /* nssl0034.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7E91816F23B28E4A0090FFAB /* nssl0034.jpg */; };
 		7E91817B23B292CD0090FFAB /* SourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E91817A23B292CD0090FFAB /* SourceViewController.swift */; };
 		7E91817D23B2942E0090FFAB /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E91817C23B2942E0090FFAB /* DetailViewController.swift */; };
+		7E91819B23B397470090FFAB /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E91819A23B397470090FFAB /* WindowController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +46,7 @@
 		7E91816F23B28E4A0090FFAB /* nssl0034.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = nssl0034.jpg; sourceTree = "<group>"; };
 		7E91817A23B292CD0090FFAB /* SourceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceViewController.swift; sourceTree = "<group>"; };
 		7E91817C23B2942E0090FFAB /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		7E91819A23B397470090FFAB /* WindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 			children = (
 				7E91815523B2847F0090FFAB /* AppDelegate.swift */,
 				7E91815723B2847F0090FFAB /* ViewController.swift */,
+				7E91819A23B397470090FFAB /* WindowController.swift */,
 				7E91817A23B292CD0090FFAB /* SourceViewController.swift */,
 				7E91817C23B2942E0090FFAB /* DetailViewController.swift */,
 				7E91815923B284810090FFAB /* Assets.xcassets */,
@@ -188,6 +191,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7E91815823B2847F0090FFAB /* ViewController.swift in Sources */,
+				7E91819B23B397470090FFAB /* WindowController.swift in Sources */,
 				7E91815623B2847F0090FFAB /* AppDelegate.swift in Sources */,
 				7E91817B23B292CD0090FFAB /* SourceViewController.swift in Sources */,
 				7E91817D23B2942E0090FFAB /* DetailViewController.swift in Sources */,
