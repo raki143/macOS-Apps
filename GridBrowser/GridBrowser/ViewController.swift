@@ -11,7 +11,7 @@ import WebKit
 
 class ViewController: NSViewController {
 
-    private var rows: NSStackView!
+    private var rowsStackView: NSStackView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,24 +35,24 @@ class ViewController: NSViewController {
     private func setup() {
         
         // 1. create the stack view and add it to our view
-        rows = NSStackView()
-        rows.orientation = .vertical
-        rows.distribution = .fillEqually
-        rows.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(rows)
+        rowsStackView = NSStackView()
+        rowsStackView.orientation = .vertical
+        rowsStackView.distribution = .fillEqually
+        rowsStackView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(rowsStackView)
         
         // 2. create Auto Layout onstraints that pin the stackview to the edges of its container
-        rows.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        rows.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        rows.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        rows.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        rowsStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        rowsStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        rowsStackView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        rowsStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         
         // 3. create an initial column that contains a single web view
         let column = NSStackView(views: [makeWebView()])
         column.distribution = .fillEqually
         
         // 4. Add this column to the rows stackview.
-        rows.addArrangedSubview(column)
+        rowsStackView.addArrangedSubview(column)
     }
 
     @IBAction func urlEntered(_ sender: NSTextField) {
@@ -85,7 +85,7 @@ class ViewController: NSViewController {
     }
     
     private func addWebViewsInNewColumn() {
-        for case let row as NSStackView in rows.arrangedSubviews {
+        for case let row as NSStackView in rowsStackView.arrangedSubviews {
             // loop over each row and add a new webview to it.
             row.addArrangedSubview(makeWebView())
         }
@@ -93,7 +93,7 @@ class ViewController: NSViewController {
     
     private func removeWebViewsInLastColumn() {
         // pull out the first of our rows
-        guard let firstRow = rows.arrangedSubviews.first as? NSStackView else {
+        guard let firstRow = rowsStackView.arrangedSubviews.first as? NSStackView else {
             return
         }
         
@@ -103,7 +103,7 @@ class ViewController: NSViewController {
         }
         
         // if we are still here it means it's safe to delete a column
-        for case let row as NSStackView in rows.arrangedSubviews {
+        for case let row as NSStackView in rowsStackView.arrangedSubviews {
             
             // loop over every row
             if let last = row.arrangedSubviews.last {
@@ -118,7 +118,7 @@ class ViewController: NSViewController {
     private func addWebViewRows() {
         
         // count how many columns we have so far
-        let columnCount = (rows.arrangedSubviews.first as! NSStackView).arrangedSubviews.count
+        let columnCount = (rowsStackView.arrangedSubviews.first as! NSStackView).arrangedSubviews.count
         
         // make a new array of web Views that contain the correct number of columns
         let viewArray = (0 ..< columnCount).map{ _ in makeWebView() }
@@ -127,19 +127,19 @@ class ViewController: NSViewController {
         let row = NSStackView(views: viewArray)
         
         // make that stackview size its children equally, then add it to our rows array
-        rows.distribution = .fillEqually
-        rows.addArrangedSubview(row)
+        row.distribution = .fillEqually
+        rowsStackView.addArrangedSubview(row)
     }
     
     private func deleteLastWebViewRows() {
         
         // make sure we have atleast two rows
-        guard rows.arrangedSubviews.count > 1 else {
+        guard rowsStackView.arrangedSubviews.count > 1 else {
             return
         }
         
         // pull out the final row, make sure its a stackview
-        guard let rowToRemove = rows.arrangedSubviews.last as? NSStackView else {
+        guard let rowToRemove = rowsStackView.arrangedSubviews.last as? NSStackView else {
             return
         }
         
@@ -148,7 +148,7 @@ class ViewController: NSViewController {
             cell.removeFromSuperview()
         }
         // finally remove the whole stackview row
-        rows.removeArrangedSubview(rowToRemove)
+        rowsStackView.removeArrangedSubview(rowToRemove)
     }
 }
 
