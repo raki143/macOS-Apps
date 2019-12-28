@@ -12,6 +12,7 @@ import WebKit
 class ViewController: NSViewController {
 
     private var rowsStackView: NSStackView!
+    private var selectedWebView: WKWebView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,10 +26,20 @@ class ViewController: NSViewController {
     }
     
     private func makeWebView() -> NSView {
+        
         let webView = WKWebView()
         webView.navigationDelegate = self
         webView.wantsLayer = true
-        webView.load(URLRequest(url: URL(string: "https://www.apple.com")!))
+        webView.load(URLRequest(url: URL(string: "https://www.google.com")!))
+        
+        let recognizer = NSClickGestureRecognizer(target: self, action: #selector(webViewClicked(recognizer:)))
+        recognizer.delegate = self
+        webView.addGestureRecognizer(recognizer)
+        
+        if selectedWebView == nil {
+            select(webView: webView)
+        }
+        
         return webView
     }
     
@@ -56,11 +67,28 @@ class ViewController: NSViewController {
     }
 
     @IBAction func urlEntered(_ sender: NSTextField) {
-        print("urlEntered")
+        
+        guard  let selected = selectedWebView else {
+            return
+        }
+        
+        if let url = URL(string: sender.stringValue) {
+            selected.load(URLRequest(url: url))
+        }
     }
     
     @IBAction func navigationClicked(_ sender: NSSegmentedControl) {
-        print("navigationClicked")
+        guard let selectedWebView = selectedWebView else {
+            return
+        }
+        
+        if sender.selectedSegment == 0 {
+            // back was tapped
+            selectedWebView.goBack()
+        }else {
+            // forward was tapped
+            selectedWebView.goForward()
+        }
     }
     
     @IBAction func adjustRows(_ sender: NSSegmentedControl) {
@@ -150,8 +178,56 @@ class ViewController: NSViewController {
         // finally remove the whole stackview row
         rowsStackView.removeArrangedSubview(rowToRemove)
     }
+    
+    private func select(webView: WKWebView) {
+        selectedWebView = webView
+        selectedWebView.layer?.borderWidth = 4
+        selectedWebView.layer?.borderColor = NSColor.blue.cgColor
+        
+        if let windowController = view.window?.windowController as? WindowController {
+            windowController.addressEntry.stringValue = selectedWebView.url?.absoluteString ?? ""
+        }
+    }
+    
+    @objc private func webViewClicked(recognizer: NSClickGestureRecognizer) {
+        
+        // get the webview that triggered this method
+        guard let newSelectedWebView = recognizer.view as? WKWebView else {
+            return
+        }
+        
+        // deselect the currently selected webview if there is one
+        if let currentWebView = selectedWebView {
+            currentWebView.layer?.borderWidth = 0
+        }
+        
+        // select the new webview.
+        select(webView: newSelectedWebView)
+    }
 }
 
 extension ViewController: WKNavigationDelegate {
     
+    func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+        
+        guard webView == selectedWebView else {
+            return
+        }
+        
+        if let windowController = view.window?.windowController as? WindowController {
+            windowController.addressEntry.stringValue = selectedWebView.url?.absoluteString ?? ""
+        }
+    }
+}
+
+extension ViewController: NSGestureRecognizerDelegate {
+    
+    func gestureRecognizer(_ gestureRecognizer: NSGestureRecognizer, shouldAttemptToRecognizeWith event: NSEvent) -> Bool {
+        
+        if gestureRecognizer.view == selectedWebView {
+            return false
+        }else {
+            return true
+        }
+    }
 }
