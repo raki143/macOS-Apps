@@ -25,6 +25,31 @@ class ViewController: NSViewController {
         }
     }
     
+    override func makeTouchBar() -> NSTouchBar? {
+        
+        // enable the customize Touch Bar Menu Item
+        NSApp.isAutomaticCustomizeTouchBarMenuItemEnabled = true
+        
+        // create a Touch Bar with a unique identifier, making 'viewcontroller' its delegate
+        let touchBar = NSTouchBar()
+        touchBar.customizationIdentifier = NSTouchBar.CustomizationIdentifier("com.rakesh.GridBrowser")
+        touchBar.delegate = self
+        
+        // set up some meaningful defaults
+        touchBar.defaultItemIdentifiers = [.navigation, .adjustGrid, .enterAddress, .sharingPicker]
+        
+        // make the address entry button it in the centre of the bar
+        touchBar.principalItemIdentifier = .enterAddress
+        
+        // allow the user to customize these four controls
+        touchBar.customizationAllowedItemIdentifiers = [.sharingPicker, .adjustGrid, .adjustRows, .adjustColumns]
+        
+        // but don't let them take off the url entry button
+        touchBar.customizationRequiredItemIdentifiers = [.enterAddress]
+        
+        return touchBar
+    }
+    
     private func makeWebView() -> NSView {
         
         let webView = WKWebView()
@@ -229,5 +254,102 @@ extension ViewController: NSGestureRecognizerDelegate {
         }else {
             return true
         }
+    }
+}
+
+extension NSTouchBarItem.Identifier {
+    static let navigation = NSTouchBarItem.Identifier(rawValue: "com.rakesh.GridBrowser.navigation")
+    static let enterAddress = NSTouchBarItem.Identifier(rawValue: "com.rakesh.GridBrowser.enterAddress")
+    static let sharingPicker = NSTouchBarItem.Identifier(rawValue: "com.rakesh.GridBrowser.sharingPicker")
+    static let adjustGrid = NSTouchBarItem.Identifier(rawValue: "com.rakesh.GridBrowser.adjustGrid")
+    static let adjustRows = NSTouchBarItem.Identifier(rawValue: "com.rakesh.GridBrowser.adjustRows")
+    static let adjustColumns = NSTouchBarItem.Identifier(rawValue: "com.rakesh.GridBrowser.adjustColumns")
+}
+
+extension ViewController: NSTouchBarDelegate {
+
+   // @available(OSX 10.12.2, *)
+    func touchBar(_ touchBar: NSTouchBar, makeItemForIdentifier identifier: NSTouchBarItem.Identifier) -> NSTouchBarItem? {
+        switch identifier {
+        
+        case NSTouchBarItem.Identifier.enterAddress:
+            let button = NSButton(title: "Enter a URL", target: self, action: #selector(selectAddressEntry))
+            button.setContentHuggingPriority(NSLayoutConstraint.Priority(10), for: .horizontal)
+            let customTouchBarItem = NSCustomTouchBarItem(identifier: identifier)
+            customTouchBarItem.view = button
+            return customTouchBarItem
+            
+        case NSTouchBarItem.Identifier.navigation:
+            // load back and forth images
+            let back = NSImage(named: NSImage.touchBarGoBackTemplateName)!
+            let forward = NSImage(named: NSImage.touchBarGoForwardTemplateName)!
+            
+            // create a segment control out of them, calling our navigationClicked() method.
+            let segmentedControl = NSSegmentedControl(images: [back,forward], trackingMode: .momentary, target: self, action: #selector(navigationClicked(_:)))
+            
+            // wrap that inside touchbar item
+            let customTouchBarItem = NSCustomTouchBarItem(identifier: identifier)
+            customTouchBarItem.view = segmentedControl
+            
+            // send it back
+            return customTouchBarItem
+            
+        case NSTouchBarItem.Identifier.sharingPicker:
+            
+            let picker = NSSharingServicePickerTouchBarItem(identifier: identifier)
+            picker.delegate = self
+            return picker
+           
+        case NSTouchBarItem.Identifier.adjustRows:
+            let control = NSSegmentedControl(labels: ["Add Rows", "Remove Row"], trackingMode: .momentaryAccelerator, target: self, action: #selector(adjustRows(_:)))
+            
+            let customTouchBarItem = NSCustomTouchBarItem(identifier: identifier)
+            customTouchBarItem.customizationLabel = "Rows"
+            customTouchBarItem.view = control
+            
+            return customTouchBarItem
+            
+        case NSTouchBarItem.Identifier.adjustColumns:
+            let control = NSSegmentedControl(labels: ["Add Cols", "Remove Cols"], trackingMode: .momentaryAccelerator, target: self, action: #selector(adjustColumns(_:)))
+            
+            let customTouchBarItem = NSCustomTouchBarItem(identifier: identifier)
+            customTouchBarItem.customizationLabel = "Columns"
+            customTouchBarItem.view = control
+            
+            return customTouchBarItem
+            
+        case NSTouchBarItem.Identifier.adjustGrid:
+            let popover = NSPopoverTouchBarItem(identifier: identifier)
+            popover.collapsedRepresentationLabel = "Grid"
+            popover.customizationLabel = "Adjust Grid"
+            popover.popoverTouchBar = NSTouchBar()
+            popover.popoverTouchBar.delegate = self
+            popover.popoverTouchBar.defaultItemIdentifiers = [.adjustRows, .adjustColumns]
+            return popover
+            
+        default:
+            return nil
+        }
+    }
+    
+    @objc private func selectAddressEntry() {
+        
+        if let windowController = view.window?.windowController as? WindowController {
+            windowController.window?.makeFirstResponder(windowController.addressEntry)
+        }
+    }
+   
+}
+
+extension ViewController: NSSharingServicePickerTouchBarItemDelegate {
+    func items(for pickerTouchBarItem: NSSharingServicePickerTouchBarItem) -> [Any] {
+        guard let webView = selectedWebView else {
+            return []
+        }
+        guard let url = webView.url?.absoluteString else {
+            return []
+        }
+        
+        return [url]
     }
 }
